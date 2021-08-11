@@ -61,6 +61,15 @@ fi
 chown -R http: users spool webdav
 chown http: templates users
 
+read -p "Allow the user '$USER' to edit kivitendo-files? [Y/n] : " ALLOW_EDIT
+ALLOW_EDIT=${ALLOW_EDIT:-"Y"}
+if [ "$ALLOW_EDIT" = "y" ] || [ "$ALLOW_EDIT" = "Y" ]; then
+  chown -R :"$USER" $(find $DIR/kivitendo-erp)
+  chmod g+w $(find $DIR/kivitendo-erp)
+  #chmod g+w $(find $DIR/kivitendo-erp -type f)
+  #chmod 775 $(find $DIR/kivitendo-erp -type d)
+fi
+
 echo "create config/kivitendo.conf"
 cp -f $DIR/kivitendo-erp/config/kivitendo.conf.default $DIR/kivitendo-erp/config/kivitendo.conf
 
