@@ -24,7 +24,7 @@ fi
 ################################################################################
 
 if [ ! -d $DIR/kivitendo-erp ]; then
-    git clone https://github.com/kivitendo/kivitendo-erp.git $DIR/
+    git clone https://github.com/kivitendo/kivitendo-erp.git $DIR/kivitendo-erp
 fi
 
 read -p "Choose Stable-Version? [Y/n] : " CHECKOUT_STABLE

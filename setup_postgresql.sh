@@ -43,7 +43,7 @@ fi
 # cd in a directory which all user can access
 cd /
 
-read -p "Change password of user postgres to selected password (default: postges)? [Y/n] : " CHANGE_POSTGRES_PASSWD
+read -p "Change password of user postgres to selected password (default: postgres)? [Y/n] : " CHANGE_POSTGRES_PASSWD
 CHANGE_POSTGRES_PASSWD=${CHANGE_POSTGRES_PASSWD:-"Y"}
 if [ "$CHANGE_POSTGRES_PASSWD" = "y" ] || [ "$CHANGE_POSTGRES_PASSWD" = "Y" ]; then
   sudo -u postgres -H -- psql -d template1 -c "ALTER ROLE postgres WITH password '$PASSWD'"
@@ -78,16 +78,18 @@ case $response in
     if [ "$PASSWD" != "kivitendo" ]; then
       echo "Es wurde ein eigenes Passwort vergeben."
       echo "Dieses Passwort muss in der Mandantenkonfiguration eingetragen werden!"
-      echo "(http://localhost/kivitendo/admin.pl)"
+      echo "(http://localhost/kivitendo/controller.pl?action=Admin/login)"
     fi
     ;;
-  1) echo "Datenbank wird initalisiert."
+  1) 
+    read -p "Please ensure that the database is up and running! (Enter to continue)" CHANGE_POSTGRES_PASSWD
+    echo "Datenbank wird initalisiert."
     echo 'CREATE EXTENSION IF NOT EXISTS plpgsql;\q' | sudo -u postgres -H -- psql template1
     echo "create user kivitendo for psql"
     sudo -u postgres -H -- createuser -d -P kivitendo
     echo "Es muss noch am Ende eine Datenbank angelegt werden!"
-    echo "(http://localhost/kivitendo/admin.pl)"
+    echo "(http://localhost/kivitendo/controller.pl?action=Admin/login)"
     ;;
 esac
 
-systemctl restart postgresql.servic
+systemctl restart postgresql.service
