@@ -18,9 +18,9 @@ Clone this repository:
     git clone https://github.com/z4m1n0/install-kivitendo.git
     cd install-kivtendo
 
-Change to root:
+Change to root without setting environment variables ('$USER' is needed):
 
-    sudo -i
+    su
 
 Run the `install_and_setup_kivitendo_on_XXXXX.sh` script for your distro. Where
 `XXXXX` stands for your distro.\
